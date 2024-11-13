@@ -1,8 +1,16 @@
+import img1984 from "@assets/images/book-1984.jpg";
+import gatsby from "@assets/images/gatsby.jpg";
+import hobbit from "@assets/images/hobbit.jpg";
+import mobydick from "@assets/images/mobydick.jpg";
+import mockingbird from "@assets/images/mockingbird.jpg";
+import pride from "@assets/images/pride.webp";
+import warandpeace from "@assets/images/warandpeace.jpg";
+
 export const books = [
   {
     id: "1",
-    name: "The Great Gatsby",
-    image: "/images/gatsby.jpg",
+    title: "The Great Gatsby",
+    image: gatsby.src,
     description: "A novel written by American author F. Scott Fitzgerald.",
     author: "F. Scott Fitzgerald",
     category: "Fiction",
@@ -13,8 +21,8 @@ export const books = [
   },
   {
     id: "2",
-    name: "To Kill a Mockingbird",
-    image: "/images/mockingbird.jpg",
+    title: "To Kill a Mockingbird",
+    image: mockingbird.src,
     description: "A novel by Harper Lee published in 1960.",
     author: "Harper Lee",
     category: "Fiction",
@@ -25,8 +33,8 @@ export const books = [
   },
   {
     id: "3",
-    name: "1984",
-    image: "/images/1984.jpg",
+    title: "1984",
+    image: img1984.src,
     description: "A dystopian social science fiction novel by George Orwell.",
     author: "George Orwell",
     category: "Science Fiction",
@@ -37,8 +45,8 @@ export const books = [
   },
   {
     id: "4",
-    name: "Pride and Prejudice",
-    image: "/images/pride.jpg",
+    title: "Pride and Prejudice",
+    image: pride.src,
     description: "A romantic novel by Jane Austen, published in 1813.",
     author: "Jane Austen",
     category: "Romance",
@@ -49,8 +57,8 @@ export const books = [
   },
   {
     id: "5",
-    name: "The Hobbit",
-    image: "/images/hobbit.jpg",
+    title: "The Hobbit",
+    image: hobbit.src,
     description: "A children's fantasy novel by J. R. R. Tolkien.",
     author: "J. R. R. Tolkien",
     category: "Fantasy",
@@ -61,8 +69,8 @@ export const books = [
   },
   {
     id: "6",
-    name: "Moby-Dick",
-    image: "/images/mobydick.jpg",
+    title: "Moby-Dick",
+    image: mobydick.src,
     description: "A novel by Herman Melville, published in 1851.",
     author: "Herman Melville",
     category: "Adventure",
@@ -73,8 +81,8 @@ export const books = [
   },
   {
     id: "7",
-    name: "War and Peace",
-    image: "/images/warandpeace.jpg",
+    title: "War and Peace",
+    image: warandpeace.src,
     description: "A novel by Leo Tolstoy, first published from 1865 to 1869.",
     author: "Leo Tolstoy",
     category: "Historical Fiction",
