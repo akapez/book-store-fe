@@ -7,7 +7,7 @@ import { Input } from "@components/ui/input";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:px-5">
       <div className="container flex h-14">
         <div className="hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
@@ -21,7 +21,7 @@ export default function Header() {
               <Input
                 type="search"
                 placeholder="Search..."
-                className="pl-8 sm:w-full md:w-[200px] lg:w-[400px]"
+                className="pl-8 sm:w-full md:w-[300px] lg:w-[400px]"
               />
             </form>
           </div>

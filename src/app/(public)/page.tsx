@@ -2,13 +2,14 @@ import BookCard from "@components/book-card";
 
 import { books } from "../../../books";
 
-export default function Home() {
+const HomePage = () => {
   return (
     <div className="mb-36 mt-10 flex items-center justify-center">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {books.map((book, index) => (
+        {books.map((book) => (
           <BookCard
-            key={index}
+            key={book.id}
+            bookId={book.id}
             title={book.title}
             author={book.author}
             price={book.price}
@@ -18,4 +19,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default HomePage;

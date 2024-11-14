@@ -6,7 +6,7 @@ import { Button } from "@components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 left-0 flex w-full items-center justify-center border-t bg-background">
+    <footer className="fixed bottom-0 left-0 flex w-full items-center justify-center border-t bg-background md:px-5">
       <div className="container flex flex-col items-center justify-between gap-4 py-4 md:h-16 md:flex-row md:py-0">
         <div className="flex flex-col items-center px-8 md:flex-row md:gap-2 md:px-0">
           <Link href="/" className="flex items-center space-x-2">
