@@ -2,7 +2,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { AddToCartButton } from "@components/add-to-cart-button";
-import Rating from "@components/rating";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent } from "@components/ui/card";
 
@@ -65,13 +64,16 @@ const BookDetailsPage = async ({
                   : "Out of Stock: 0"}
               </Badge>
             </div>
-            <Rating rating={book.rating} reviews={book.num_reviews} />
+
             <Card>
               <CardContent className="p-4">
                 <h2 className="mb-2 text-xl font-semibold">Description</h2>
                 <p className="text-muted-foreground">{book.description}</p>
               </CardContent>
             </Card>
+            <span className="flex justify-end text-sm text-muted-foreground">
+              {book.num_reviews} reviews
+            </span>
           </div>
           <AddToCartButton />
         </div>
