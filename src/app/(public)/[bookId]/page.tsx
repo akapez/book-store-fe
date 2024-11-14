@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { Book } from "@type/types";
-
 import { AddToCartButton } from "@components/add-to-cart-button";
 import Rating from "@components/rating";
 import { Badge } from "@components/ui/badge";
@@ -15,7 +13,8 @@ async function getBook(id: string) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   if (id in books) {
-    return books[id as keyof typeof books];
+    const book = books.find((b) => b.id === id);
+    return book;
   }
 
   return null;
