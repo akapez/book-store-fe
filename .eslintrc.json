@@ -7,5 +7,6 @@
   ],
   "globals": {
     "React": "readonly"
-  }
+  },
+  "ignorePatterns": ["**/*.test.tsx", "**/__tests__/**"]
 }

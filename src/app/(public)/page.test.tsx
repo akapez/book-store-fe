@@ -16,7 +16,7 @@ interface CardProps {
 jest.mock(
   "@components/book-card",
   () =>
-    ({ bookId, title, author, price, imageUrl }: CardProps) => (
+    ({ title, author, price, imageUrl }: CardProps) => (
       <div data-testid="book-card">
         <p>{title}</p>
         <p>{author}</p>
