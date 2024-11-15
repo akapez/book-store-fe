@@ -11,7 +11,7 @@ import Header from "@components/header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Book Store",
+  title: "Booktopia",
   description: "Discover your next favorite read.",
 };
 

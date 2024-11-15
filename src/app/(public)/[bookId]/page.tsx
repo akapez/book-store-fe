@@ -1,8 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import { ChevronLeft } from "lucide-react";
 
 import { AddToCartButton } from "@components/add-to-cart-button";
 import { Badge } from "@components/ui/badge";
+import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 
 import { books } from "../../../../books";
@@ -32,7 +36,12 @@ const BookDetailsPage = async ({
   }
   return (
     <div className="mx-auto mb-40 max-w-4xl p-5 md:p-6 lg:p-8">
-      <div className="grid gap-8 md:grid-cols-2">
+      <Link href="/">
+        <Button variant="outline" size="icon">
+          <ChevronLeft />
+        </Button>
+      </Link>
+      <div className="mt-5 grid gap-8 md:grid-cols-2">
         <Card className="overflow-hidden">
           <CardContent className="p-0">
             <div className="relative h-[400px] w-full">

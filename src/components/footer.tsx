@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="container flex flex-col items-center justify-between gap-4 py-4 md:h-16 md:flex-row md:py-0">
         <div className="flex flex-col items-center px-8 md:flex-row md:gap-2 md:px-0">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-bold">Book Store</span>
+            <span className="font-bold">Booktopia</span>
           </Link>
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
             © 2024 Book Store Inc. All rights reserved.

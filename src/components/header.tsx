@@ -7,11 +7,11 @@ import { Input } from "@components/ui/input";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:px-5">
+    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:pl-5">
       <div className="container flex h-14">
         <div className="hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">Book Store</span>
+            <span className="hidden font-bold sm:inline-block">Booktopia</span>
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2 px-5">
@@ -28,7 +28,9 @@ export default function Header() {
           <Button variant="outline" size="icon">
             <ShoppingCart />
           </Button>
-          <Button size="sm">Sign In</Button>
+          <Link href="/sign-in">
+            <Button size="sm">Sign In</Button>
+          </Link>
         </div>
       </div>
     </header>
