@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema, signInSchema } from "@validations/sign-in";
+import { SignUpSchema, signUpSchema } from "@validations/sign-up";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@components/ui/button";
@@ -26,10 +26,12 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 
-const SignInForm = () => {
-  const form = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema),
+const SignUpForm = () => {
+  const form = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      first: "",
+      last: "",
       email: "",
       password: "",
     },
@@ -41,21 +43,47 @@ const SignInForm = () => {
     formState: { errors, isSubmitting },
   } = form;
 
-  const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
+  const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
     // call the server action
     console.log(data);
   };
 
   return (
-    <Card className="mx-auto mt-20 max-w-xs md:max-w-sm">
+    <Card className="mx-auto mb-40 mt-10 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-        <CardDescription>Welcome back to Booktopia!</CardDescription>
+        <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+        <CardDescription>Join the Booktopia Community</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-2">
+              <FormField
+                control={control}
+                name="first"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="First Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="last"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="Last Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={control}
                 name="email"
@@ -82,25 +110,30 @@ const SignInForm = () => {
                         {...field}
                       />
                     </FormControl>
+                    <FormDescription>
+                      Password must be 8 characters long and include at least
+                      one uppercase letter, one lowercase letter, and one
+                      numeric character.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
             <Button className="w-full" type="submit">
-              Sign In
+              Sign Up
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center text-sm">
-        Don't have an account?
-        <Link href="/sign-up">
-          <Button variant="link">Sign Up</Button>
+        Already have an account?
+        <Link href="/sign-in">
+          <Button variant="link">Sign In</Button>
         </Link>
       </CardFooter>
     </Card>
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

@@ -25,7 +25,8 @@
       "@components/*": ["./components/*"],
       "@lib/*": ["./lib/*"],
       "@type/*": ["./utils/*"],
-      "@assets/*": ["./assets/*"]
+      "@assets/*": ["./assets/*"],
+      "@validations/*": ["./zod-schemas/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
