@@ -40,7 +40,7 @@ const SignUpForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    // formState: { errors, isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {

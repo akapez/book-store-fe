@@ -18,7 +18,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -38,7 +37,7 @@ const SignInForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    // formState: { errors, isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
@@ -94,7 +93,7 @@ const SignInForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center text-sm">
-        Don't have an account?
+        Don&apos;t have an account?
         <Link href="/sign-up">
           <Button variant="link">Sign Up</Button>
         </Link>
