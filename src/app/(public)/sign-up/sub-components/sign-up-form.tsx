@@ -51,7 +51,9 @@ const SignUpForm = () => {
   return (
     <Card className="mx-auto mb-40 mt-10 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+        <CardTitle className="text-2xl font-bold" role="heading">
+          Sign Up
+        </CardTitle>
         <CardDescription>Join the Booktopia Community</CardDescription>
       </CardHeader>
       <CardContent>

@@ -48,7 +48,9 @@ const SignInForm = () => {
   return (
     <Card className="mx-auto mt-20 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+        <CardTitle className="text-2xl font-bold" role="heading">
+          Sign In
+        </CardTitle>
         <CardDescription>Welcome back to Booktopia!</CardDescription>
       </CardHeader>
       <CardContent>
