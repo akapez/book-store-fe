@@ -7,6 +7,7 @@ import "./globals.css";
 
 import Footer from "@components/footer";
 import Header from "@components/header";
+import ToggleTheme from "@components/toggle-theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <ToggleTheme />
           <Footer />
         </ThemeProvider>
       </body>
