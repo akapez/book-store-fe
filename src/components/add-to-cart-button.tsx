@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@components/ui/button";
+import { Button } from "./ui/button";
 
-export function AddToCartButton() {
+export default function AddToCartButton() {
   const handleAddToCart = () => {
     // Handle adding to cart
     console.log("Added to cart");

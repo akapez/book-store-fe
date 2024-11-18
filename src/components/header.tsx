@@ -2,13 +2,17 @@ import Link from "next/link";
 
 import { Search, ShoppingCart } from "lucide-react";
 
-import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
+// import Menu from "./menu";
+// import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+const itemCount = 1;
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:pl-5">
-      <div className="container flex h-14">
+      <div className="container flex h-16">
         <div className="hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="hidden font-bold sm:inline-block">Booktopia</span>
@@ -25,12 +29,25 @@ export default function Header() {
               />
             </form>
           </div>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" className="relative">
             <ShoppingCart />
+            {itemCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[0.6rem] font-medium text-slate-50">
+                {itemCount}
+              </span>
+            )}
+            <span className="sr-only">Shopping cart</span>
+            <span className="sr-only">{itemCount} items</span>
           </Button>
           <Link href="/sign-in">
             <Button size="sm">Sign In</Button>
           </Link>
+          {/* <Menu>
+            <Avatar className="cursor-pointer" id="avatar">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </Menu> */}
         </div>
       </div>
     </header>
