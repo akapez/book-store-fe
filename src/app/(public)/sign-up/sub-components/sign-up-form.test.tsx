@@ -31,6 +31,7 @@ describe("SignUpForm", () => {
 
     // Try to submit the form without filling in any fields
     await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+
     expect(
       await screen.findByText("First name must be at least three characters.")
     ).toBeInTheDocument();
@@ -96,6 +97,7 @@ describe("SignUpForm", () => {
       screen.getByPlaceholderText("Email"),
       "john.doe@example.com"
     );
+
     await formEvent.type(
       screen.getByPlaceholderText("Password"),
       "Password123"
@@ -103,35 +105,31 @@ describe("SignUpForm", () => {
     await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Check that all validations have been passed
-    await waitFor(() => {
+    await waitFor(() =>
       expect(
         screen.queryByText("First name must be at least three characters.")
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText("Last name must be at least three characters.")
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText("Invalid email address.")
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText("Password must be at least 8 characters long.")
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(
-          "Password must contain at least one uppercase letter."
-        )
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(
-          "Password must contain at least one lowercase letter."
-        )
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByText(
-          "Password must contain at least one numeric character."
-        )
-      ).not.toBeInTheDocument();
-    });
+      ).not.toBeInTheDocument()
+    );
+    expect(
+      screen.queryByText("Last name must be at least three characters.")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Invalid email address.")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Password must be at least 8 characters long.")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Password must contain at least one uppercase letter.")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Password must contain at least one lowercase letter.")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Password must contain at least one numeric character."
+      )
+    ).not.toBeInTheDocument();
 
     expect(console.log).toHaveBeenCalledWith({
       first: "John",

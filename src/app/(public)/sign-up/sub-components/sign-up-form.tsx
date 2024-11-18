@@ -51,10 +51,16 @@ const SignUpForm = () => {
   return (
     <Card className="mx-auto mb-40 mt-10 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold" role="heading">
+        <CardTitle
+          className="text-2xl font-bold"
+          role="heading"
+          id="sign-up-card-header"
+        >
           Sign Up
         </CardTitle>
-        <CardDescription>Join the Booktopia Community</CardDescription>
+        <CardDescription id="sign-up-card-description">
+          Join the Booktopia Community
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -65,9 +71,14 @@ const SignUpForm = () => {
                 name="first"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel htmlFor="first-name">First Name</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="First Name" {...field} />
+                      <Input
+                        id="first-name"
+                        type="text"
+                        placeholder="First Name"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -78,9 +89,14 @@ const SignUpForm = () => {
                 name="last"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel htmlFor="last-name">Last Name</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Last Name" {...field} />
+                      <Input
+                        id="last-name"
+                        type="text"
+                        placeholder="Last Name"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -91,9 +107,14 @@ const SignUpForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Email" {...field} />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,9 +125,10 @@ const SignUpForm = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor="password">Password</FormLabel>
                     <FormControl>
                       <Input
+                        id="password"
                         type="password"
                         placeholder="Password"
                         {...field}
@@ -122,16 +144,21 @@ const SignUpForm = () => {
                 )}
               />
             </div>
-            <Button className="w-full" type="submit">
+            <Button id="sign-up-btn" className="w-full" type="submit">
               Sign Up
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm">
+      <CardFooter
+        id="sign-up-card-footer"
+        className="flex justify-center text-sm"
+      >
         Already have an account?
         <Link href="/sign-in">
-          <Button variant="link">Sign In</Button>
+          <Button id="sign-in-btn" variant="link">
+            Sign In
+          </Button>
         </Link>
       </CardFooter>
     </Card>

@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom";
 
+import Image from "next/image";
+
 import { render, screen } from "@testing-library/react";
 
 import { books } from "../../../books";
@@ -16,14 +18,16 @@ interface CardProps {
 jest.mock(
   "@components/book-card",
   () =>
-    ({ title, author, price, imageUrl }: CardProps) => (
-      <div data-testid="book-card">
-        <p>{title}</p>
-        <p>{author}</p>
-        <p>{price}</p>
-        <img src={imageUrl} alt={title} />
-      </div>
-    )
+    function BookCard({ title, author, price, imageUrl }: CardProps) {
+      return (
+        <div data-testid="book-card">
+          <p>{title}</p>
+          <p>{author}</p>
+          <p>{price}</p>
+          <Image src={imageUrl} alt={title} width={200} height={300} />
+        </div>
+      );
+    }
 );
 
 describe("HomePage", () => {

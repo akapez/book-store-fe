@@ -26,7 +26,10 @@ export default function BookCard({
 }: BookCardProps) {
   return (
     <Link href={`/${bookId}`}>
-      <Card className="w-72 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <Card
+        className="w-72 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+        data-testid={`book-card-${bookId}`}
+      >
         <CardHeader>
           <div className="relative aspect-[4/3]">
             <Image
@@ -40,9 +43,12 @@ export default function BookCard({
           </div>
         </CardHeader>
         <CardContent className="border-t p-4">
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{author}</CardDescription>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <CardTitle data-testid="book-title">{title}</CardTitle>
+          <CardDescription data-testid="book-author">{author}</CardDescription>
+          <p
+            data-testid="book-price"
+            className="mt-2 text-sm text-muted-foreground"
+          >
             ${price.toFixed(2)}
           </p>
         </CardContent>

@@ -1,4 +1,4 @@
-import img1984 from "@assets/images/book-1984.jpg";
+import bookgeorge from "@assets/images/book-george.jpg";
 import gatsby from "@assets/images/gatsby.jpg";
 import hobbit from "@assets/images/hobbit.jpg";
 import mobydick from "@assets/images/mobydick.jpg";
@@ -34,7 +34,7 @@ export const books = [
   {
     id: "2",
     title: "1984",
-    image: img1984.src,
+    image: bookgeorge.src,
     description: "A dystopian social science fiction novel by George Orwell.",
     author: "George Orwell",
     category: "Science Fiction",

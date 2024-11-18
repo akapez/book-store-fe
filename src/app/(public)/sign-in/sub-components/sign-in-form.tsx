@@ -48,10 +48,16 @@ const SignInForm = () => {
   return (
     <Card className="mx-auto mt-20 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold" role="heading">
+        <CardTitle
+          className="text-2xl font-bold"
+          role="heading"
+          id="sign-in-card-header"
+        >
           Sign In
         </CardTitle>
-        <CardDescription>Welcome back to Booktopia!</CardDescription>
+        <CardDescription id="sign-in-card-description">
+          Welcome back to Booktopia!
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -62,9 +68,14 @@ const SignInForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Email" {...field} />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,9 +86,10 @@ const SignInForm = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor="password">Password</FormLabel>
                     <FormControl>
                       <Input
+                        id="password"
                         type="password"
                         placeholder="Password"
                         {...field}
@@ -88,16 +100,21 @@ const SignInForm = () => {
                 )}
               />
             </div>
-            <Button className="w-full" type="submit">
+            <Button id="sign-in-btn" className="w-full" type="submit">
               Sign In
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm">
+      <CardFooter
+        id="sign-up-card-footer"
+        className="flex justify-center text-sm"
+      >
         Don&apos;t have an account?
         <Link href="/sign-up">
-          <Button variant="link">Sign Up</Button>
+          <Button id="sign-up-btn" variant="link">
+            Sign Up
+          </Button>
         </Link>
       </CardFooter>
     </Card>

@@ -3,10 +3,15 @@
     "next/core-web-vitals",
     "next/typescript",
     "prettier",
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
   ],
   "globals": {
     "React": "readonly"
   },
-  "ignorePatterns": ["**/*.test.tsx", "**/__tests__/**"]
+  "env": {
+    "jest": true
+  }
+  // "ignorePatterns": ["**/*.test.tsx", "**/__tests__/**"]
 }
