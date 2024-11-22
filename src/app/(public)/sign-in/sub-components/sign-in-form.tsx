@@ -47,30 +47,24 @@ const SignInForm = () => {
   } = form;
 
   const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
-    try {
-      const response = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-      if (!response?.ok) {
-        toast({
-          variant: "destructive",
-          title: response?.error || "Uh oh! Something went wrong.",
-        });
-      }
-      toast({
-        title: "Successfully signed in.",
-      });
-      router.refresh();
-    } catch (error) {
-      console.error(error);
+    const response = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    console.log(response);
+    if (!response?.ok) {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: response?.error || "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
       });
+      return;
     }
+    toast({
+      title: "Successfully signed in.",
+    });
+    router.refresh();
   };
 
   return (

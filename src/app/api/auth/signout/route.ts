@@ -17,10 +17,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-
     const apiUrl = `${process.env.API_BASE_URL}/auth/logout`;
-
-    // Make a request to the backend logout endpoint
     const res = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -33,11 +30,8 @@ export async function POST(request: NextRequest) {
     // Clear specific cookies
     const nextCookies = await cookies();
     nextCookies.getAll().map((cookie) => {
-      if (cookie.name.startsWith("next-auth"))
-        nextCookies.delete(cookie.name as any);
+      if (cookie.name.startsWith("next-auth")) nextCookies.delete(cookie.name);
     });
-
-    // Return the response
     return NextResponse.json(
       {
         success: res.ok,

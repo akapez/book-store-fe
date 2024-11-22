@@ -1,5 +1,3 @@
-/* eslint no-use-before-define: 0 */
-
 "use client";
 
 // Inspired by react-hot-toast library
@@ -17,6 +15,7 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement;
 };
 
+// eslint-disable-next-line
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
   UPDATE_TOAST: "UPDATE_TOAST",
@@ -128,6 +127,7 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
+// eslint-disable-next-line
 const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };

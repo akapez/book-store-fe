@@ -3,7 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const BASE_URL = process.env.API_BASE_URL as string;
 
-async function refreshAccessToken(token: any) {
+// @ts-expect-error: Token type is dynamically determined
+async function refreshAccessToken(token) {
   try {
     console.log("BEARER TOKEN:", token.refreshToken);
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
@@ -70,7 +71,6 @@ export const options: NextAuthOptions = {
           throw new Error(user.message);
         }
         if (res.ok && user) {
-          const prefix = process.env.NODE_ENV === "development" ? "__Dev-" : "";
           return {
             access_token: user.access_token,
             refresh_token: user.refresh_token,
@@ -95,9 +95,7 @@ export const options: NextAuthOptions = {
         );
         if (decodedAccessToken) {
           token.userId = decodedAccessToken["sub"] as string;
-          ("@TODO");
           token.accessTokenExpires = decodedAccessToken["exp"] * 1000;
-          ("@TODO");
         }
       }
       if (

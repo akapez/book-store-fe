@@ -2,12 +2,17 @@
 
 const BASE_URL = process.env.API_BASE_URL as string;
 
+interface CreateUserResponse {
+  success: boolean;
+  message: string;
+}
+
 export async function createUser(
   email: string,
   password: string,
   first: string,
   last: string
-): Promise<any> {
+): Promise<CreateUserResponse> {
   try {
     const response = await fetch(`${BASE_URL}/auth/signup`, {
       method: "POST",
@@ -33,6 +38,7 @@ export async function createUser(
       return { success: false, message: "Something went wrong." };
     }
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.log("Error creating user:", error);
+    return { success: false, message: "Error creating user." };
   }
 }

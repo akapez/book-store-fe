@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { createUser } from "@actions/register";
+import { createUser } from "@actions/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@hooks/use-toast";
 import { SignUpSchema, signUpSchema } from "@validations/sign-up";
@@ -50,25 +50,24 @@ const SignUpForm = () => {
   } = form;
 
   const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
-    try {
-      const response = await createUser(
-        data.email,
-        data.password,
-        data.first,
-        data.last
-      );
-      if (response.success) {
-        router.push("/sign-in");
-        toast({
-          title: response.message,
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: response.message,
-        });
-      }
-    } catch (error) {}
+    const response = await createUser(
+      data.email,
+      data.password,
+      data.first,
+      data.last
+    );
+    console.log(response);
+    if (response.success) {
+      router.push("/sign-in");
+      toast({
+        title: response.message,
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: response.message,
+      });
+    }
   };
 
   return (
