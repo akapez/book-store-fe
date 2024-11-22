@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@hooks/use-toast";
 import { SignInSchema, signInSchema } from "@validations/sign-in";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@components/ui/button";
@@ -26,6 +30,8 @@ import {
 import { Input } from "@components/ui/input";
 
 const SignInForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -37,12 +43,34 @@ const SignInForm = () => {
   const {
     handleSubmit,
     control,
-    // formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
-    // call the server action
-    console.log(data);
+    try {
+      const response = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      if (!response?.ok) {
+        toast({
+          variant: "destructive",
+          title: response?.error || "Uh oh! Something went wrong.",
+        });
+      }
+      toast({
+        title: "Successfully signed in.",
+      });
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    }
   };
 
   return (
@@ -100,8 +128,20 @@ const SignInForm = () => {
                 )}
               />
             </div>
-            <Button id="sign-in-btn" className="w-full" type="submit">
-              Sign In
+            <Button
+              disabled={isSubmitting}
+              id="sign-in-btn"
+              className="w-full"
+              type="submit"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </Form>
@@ -113,7 +153,7 @@ const SignInForm = () => {
         Don&apos;t have an account?
         <Link href="/sign-up">
           <Button id="sign-up-btn" variant="link">
-            Sign Up
+            Register
           </Button>
         </Link>
       </CardFooter>

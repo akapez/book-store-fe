@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 
-import { Book, BookCheck, History, LogOut, User, Users } from "lucide-react";
+import { Book, LogOut, User } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 import {
   DropdownMenu,
@@ -13,9 +16,10 @@ import {
 
 interface MenuProps {
   children: React.ReactNode;
+  role: string | undefined;
 }
 
-export default function Menu({ children }: MenuProps) {
+export default function Menu({ children, role }: MenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
@@ -26,35 +30,30 @@ export default function Menu({ children }: MenuProps) {
             <span>Profile</span>
           </DropdownMenuItem>
         </Link>
-        <Link href="/manage/order-history">
-          <DropdownMenuItem className="cursor-pointer">
-            <History />
-            <span>Order History</span>
-          </DropdownMenuItem>
-        </Link>
+        {role === "ADMIN" && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Admin Menu</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <Link href="/manage/books">
+              <DropdownMenuItem className="cursor-pointer">
+                <Book />
+                <span>Books Manage</span>
+              </DropdownMenuItem>
+            </Link>{" "}
+          </>
+        )}
+
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Admin Menu</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <Link href="/manage/books">
-          <DropdownMenuItem className="cursor-pointer">
-            <Book />
-            <span>Books Manage</span>
-          </DropdownMenuItem>
-        </Link>
-        <Link href="/manage/users">
-          <DropdownMenuItem className="cursor-pointer">
-            <Users />
-            <span>Users Manage</span>
-          </DropdownMenuItem>
-        </Link>
-        <Link href="/manage/orders">
-          <DropdownMenuItem className="cursor-pointer">
-            <BookCheck />
-            <span>Orders Manage</span>
-          </DropdownMenuItem>
-        </Link>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() =>
+            signOut({
+              redirect: true,
+              callbackUrl: "/sign-in",
+            })
+          }
+        >
           <LogOut />
           <span>Sign Out</span>
         </DropdownMenuItem>

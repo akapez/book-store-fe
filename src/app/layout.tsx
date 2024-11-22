@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { ThemeProvider } from "@providers";
+import { ThemeProvider, Toaster } from "@providers";
 
 import "./globals.css";
+
+import { options } from "@auth/options";
+import { getServerSession } from "next-auth/next";
 
 import Footer from "@components/footer";
 import Header from "@components/header";
@@ -16,11 +19,12 @@ export const metadata: Metadata = {
   description: "Discover your next favorite read.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(options);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
@@ -30,9 +34,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
+          <Header
+            role={session?.user.role}
+            isLoggedIn={Boolean(session?.user)}
+            firstName={"Avishka"}
+            lastName={"Malshan"}
+            imageUrl={"https://github.com/shadcn.png"}
+          />
           {children}
           <ToggleTheme />
+          <Toaster />
           <Footer />
         </ThemeProvider>
       </body>

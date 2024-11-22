@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+import { createUser } from "@actions/register";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@hooks/use-toast";
 import { SignUpSchema, signUpSchema } from "@validations/sign-up";
+import { Loader2 } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@components/ui/button";
@@ -27,6 +31,8 @@ import {
 import { Input } from "@components/ui/input";
 
 const SignUpForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -40,12 +46,29 @@ const SignUpForm = () => {
   const {
     handleSubmit,
     control,
-    // formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
-    // call the server action
-    console.log(data);
+    try {
+      const response = await createUser(
+        data.email,
+        data.password,
+        data.first,
+        data.last
+      );
+      if (response.success) {
+        router.push("/sign-in");
+        toast({
+          title: response.message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: response.message,
+        });
+      }
+    } catch (error) {}
   };
 
   return (
@@ -56,7 +79,7 @@ const SignUpForm = () => {
           role="heading"
           id="sign-up-card-header"
         >
-          Sign Up
+          Register
         </CardTitle>
         <CardDescription id="sign-up-card-description">
           Join the Booktopia Community
@@ -144,8 +167,20 @@ const SignUpForm = () => {
                 )}
               />
             </div>
-            <Button id="sign-up-btn" className="w-full" type="submit">
-              Sign Up
+            <Button
+              disabled={isSubmitting}
+              id="sign-up-btn"
+              className="w-full"
+              type="submit"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Register"
+              )}
             </Button>
           </form>
         </Form>

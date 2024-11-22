@@ -23,10 +23,13 @@
       "@/*": ["./src/*"],
       "@providers": ["./providers"],
       "@components/*": ["./components/*"],
+      "@hooks/*": ["./hooks/*"],
       "@lib/*": ["./lib/*"],
       "@type/*": ["./utils/*"],
       "@assets/*": ["./assets/*"],
-      "@validations/*": ["./zod-schemas/*"]
+      "@validations/*": ["./zod-schemas/*"],
+      "@auth/*": ["./app/api/auth/[...nextauth]/*"],
+      "@actions/*": ["./app/actions/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
