@@ -17,13 +17,22 @@ import {
 interface MenuProps {
   children: React.ReactNode;
   role: string | undefined;
+  firstName: string;
+  lastName: string;
 }
 
-export default function Menu({ children, role }: MenuProps) {
+export default function Menu({
+  children,
+  role,
+  firstName,
+  lastName,
+}: MenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent>
+        <DropdownMenuLabel>{`${firstName} ${lastName}`}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <Link href="/manage">
           <DropdownMenuItem className="cursor-pointer">
             <User />

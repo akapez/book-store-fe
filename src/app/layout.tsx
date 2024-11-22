@@ -37,9 +37,9 @@ export default async function RootLayout({
           <Header
             role={session?.user.role}
             isLoggedIn={Boolean(session?.user)}
-            firstName={"Avishka"}
-            lastName={"Malshan"}
-            imageUrl={"https://github.com/shadcn.png"}
+            firstName={session?.user.firstName || ""}
+            lastName={session?.user.lastName || ""}
+            imageUrl={session?.user.image || ""}
           />
           {children}
           <ToggleTheme />

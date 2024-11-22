@@ -26,12 +26,14 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({}),
     });
-
-    // Clear specific cookies
-    const nextCookies = await cookies();
-    nextCookies.getAll().map((cookie) => {
-      if (cookie.name.startsWith("next-auth")) nextCookies.delete(cookie.name);
-    });
+    if (res.ok) {
+      // Clear specific cookies
+      const nextCookies = await cookies();
+      nextCookies.getAll().map((cookie) => {
+        if (cookie.name.startsWith("next-auth"))
+          nextCookies.delete(cookie.name);
+      });
+    }
     return NextResponse.json(
       {
         success: res.ok,

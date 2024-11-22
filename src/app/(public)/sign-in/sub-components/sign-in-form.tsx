@@ -52,7 +52,6 @@ const SignInForm = () => {
       password: data.password,
       redirect: false,
     });
-    console.log(response);
     if (!response?.ok) {
       toast({
         variant: "destructive",

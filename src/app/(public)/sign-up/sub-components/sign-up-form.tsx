@@ -56,7 +56,6 @@ const SignUpForm = () => {
       data.first,
       data.last
     );
-    console.log(response);
     if (response.success) {
       router.push("/sign-in");
       toast({

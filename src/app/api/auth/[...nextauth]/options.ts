@@ -72,11 +72,14 @@ export const options: NextAuthOptions = {
         }
         if (res.ok && user) {
           return {
-            access_token: user.access_token,
-            refresh_token: user.refresh_token,
+            accessToken: user.access_token,
+            refreshToken: user.refresh_token,
             role: user.user_info.role,
             email: user.user_info.email,
             id: user.user_info.id,
+            firstName: user.user_info.first,
+            lastName: user.user_info.last,
+            image: user.user_info.image,
           };
         }
         return null;
@@ -84,14 +87,25 @@ export const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, account, user }) => {
+    jwt: async ({ token, account, user, trigger, session }) => {
+      if (
+        trigger === "update" &&
+        ((session?.firstName && session?.lastName) || session?.image)
+      ) {
+        token.firstName = session.firstName;
+        token.lastName = session.lastName;
+        token.image = session.image;
+      }
       if (account && user) {
         token.id = user.id;
-        token.accessToken = user.access_token;
-        token.refreshToken = user.refresh_token;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
         token.role = user.role;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.image = user.image;
         const decodedAccessToken = JSON.parse(
-          Buffer.from(user.access_token.split(".")[1], "base64").toString()
+          Buffer.from(user.accessToken.split(".")[1], "base64").toString()
         );
         if (decodedAccessToken) {
           token.userId = decodedAccessToken["sub"] as string;
@@ -118,6 +132,9 @@ export const options: NextAuthOptions = {
           accessToken: token.accessToken as string,
           accessTokenExpires: token.accessTokenExpires as number,
           role: token.role as string,
+          image: token.image as string,
+          firstName: token.firstName as string,
+          lastName: token.lastName as string,
         },
         error: token.error,
       };

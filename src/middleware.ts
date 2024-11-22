@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import {
+  ADMIN_ROUTES,
   API_AUTH_PREFIX,
   AUTH_ROUTES,
-  DEFAULT_LOGIN_REDIRECT,
+  DEFAULT_REDIRECT,
   PRIVATE_ROUTES,
   PUBLIC_ROUTES,
 } from "@lib/routes";
@@ -20,6 +21,7 @@ export async function middleware(req: NextRequest) {
   const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
   const isPrivate = PRIVATE_ROUTES.includes(nextUrl.pathname);
+  const isAdminRoute = ADMIN_ROUTES.includes(nextUrl.pathname);
 
   if (isApiAuthRoute) {
     return NextResponse.next();
@@ -27,9 +29,7 @@ export async function middleware(req: NextRequest) {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_LOGIN_REDIRECT, nextUrl.origin)
-      );
+      return NextResponse.redirect(new URL(DEFAULT_REDIRECT, nextUrl.origin));
     }
     return NextResponse.next();
   }
@@ -37,6 +37,12 @@ export async function middleware(req: NextRequest) {
   if (!isLoggedIn && !isPublicRoute) {
     if (isPrivate) {
       return NextResponse.redirect(new URL("/sign-in", nextUrl));
+    }
+  }
+
+  if (isAdminRoute) {
+    if (!isLoggedIn || token?.role !== "ADMIN") {
+      return NextResponse.redirect(new URL(DEFAULT_REDIRECT, nextUrl));
     }
   }
 

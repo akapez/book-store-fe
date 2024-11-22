@@ -62,7 +62,7 @@ export default function Header({
               <Button size="sm">Sign In</Button>
             </Link>
           ) : (
-            <Menu role={role}>
+            <Menu role={role} firstName={firstName} lastName={lastName}>
               <Avatar className="cursor-pointer" id="avatar">
                 <AvatarImage src={imageUrl} />
                 <AvatarFallback>{`${firstLetter}${secondLetter}`}</AvatarFallback>
