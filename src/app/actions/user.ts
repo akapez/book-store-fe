@@ -54,7 +54,7 @@ export async function createUser(
 export async function updateUser(formData: FormData): Promise<UserResponse> {
   try {
     const session = await getServerSession(options);
-    const response = await fetch(`${BASE_URL}/user/update`, {
+    const response = await fetch(`${BASE_URL}/user`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${session?.user.accessToken}`,

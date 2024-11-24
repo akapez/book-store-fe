@@ -1,7 +1,9 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { getBook } from "@actions/book";
 import { ChevronLeft } from "lucide-react";
 
 import AddToCartButton from "@components/add-to-cart-button";
@@ -9,18 +11,22 @@ import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 
-import { books } from "../../../../books";
+type MetadataProps = {
+  params: Promise<{ bookId: string }>;
+};
 
-async function getBook(id: string) {
-  // Simulating an API delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  if (id in books) {
-    const book = books.find((b) => b.id === id);
-    return book;
+export async function generateMetadata({
+  params,
+}: MetadataProps): Promise<Metadata> {
+  const id = (await params).bookId;
+  const book = await getBook(id);
+  if (!book) {
+    notFound();
   }
-
-  return null;
+  return {
+    title: book?.title,
+    description: book?.description,
+  };
 }
 
 const BookDetailsPage = async ({
@@ -28,8 +34,8 @@ const BookDetailsPage = async ({
 }: {
   params: Promise<{ bookId: string }>;
 }) => {
-  const slug = (await params).bookId;
-  const book = await getBook(slug);
+  const id = (await params).bookId;
+  const book = await getBook(id);
 
   if (!book) {
     notFound();
@@ -59,6 +65,9 @@ const BookDetailsPage = async ({
         <div className="flex flex-col justify-between">
           <div className="space-y-4">
             <h1 className="text-3xl font-bold">{book.title}</h1>
+            <span className="text-sm text-muted-foreground">
+              {book.category}
+            </span>
             <p className="text-lg text-muted-foreground">by {book.author}</p>
             <div className="flex items-center justify-between">
               <span className="text-2xl font-bold">
@@ -73,16 +82,12 @@ const BookDetailsPage = async ({
                   : "Out of Stock: 0"}
               </Badge>
             </div>
-
             <Card>
               <CardContent className="p-4">
                 <h2 className="mb-2 text-xl font-semibold">Description</h2>
                 <p className="text-muted-foreground">{book.description}</p>
               </CardContent>
             </Card>
-            <span className="flex justify-end text-sm text-muted-foreground">
-              {book.num_reviews} reviews
-            </span>
           </div>
           <AddToCartButton />
         </div>

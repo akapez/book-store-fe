@@ -1,4 +1,4 @@
-export interface Book {
+export type Book = {
   id: string;
   title: string;
   image: string;
@@ -7,6 +7,5 @@ export interface Book {
   category: string;
   price: number;
   count_in_stock: number;
-  rating: number;
-  num_reviews: number;
-}
+  user_id?: string;
+};

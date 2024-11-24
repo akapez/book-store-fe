@@ -70,6 +70,9 @@ const UserUpdateForm = () => {
 
   return (
     <div className="mx-auto mt-20 max-w-xs md:max-w-sm">
+      <h2 className="mb-5 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+        Update Profile
+      </h2>
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
@@ -134,7 +137,7 @@ const UserUpdateForm = () => {
           </div>
           <Button
             disabled={isSubmitting}
-            id="sign-up-btn"
+            id="profile-update-btn"
             className="w-full"
             type="submit"
           >

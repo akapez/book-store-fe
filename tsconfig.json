@@ -25,7 +25,7 @@
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
       "@lib/*": ["./lib/*"],
-      "@type/*": ["./utils/*"],
+      "@utils/*": ["./utils/*"],
       "@assets/*": ["./assets/*"],
       "@validations/*": ["./zod-schemas/*"],
       "@auth/*": ["./app/api/auth/[...nextauth]/*"],
