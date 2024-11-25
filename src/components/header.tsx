@@ -1,13 +1,12 @@
 import Link from "next/link";
 
-import { Search, ShoppingCart } from "lucide-react";
+import { Search } from "lucide-react";
 
 import Menu from "./menu";
+import ShoppingCartButton from "./shoppint-cart-button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-
-const itemCount = 1;
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -47,16 +46,9 @@ export default function Header({
               />
             </form>
           </div>
-          <Button variant="outline" size="icon" className="relative">
-            <ShoppingCart />
-            {itemCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[0.6rem] font-medium text-slate-50">
-                {itemCount}
-              </span>
-            )}
-            <span className="sr-only">Shopping cart</span>
-            <span className="sr-only">{itemCount} items</span>
-          </Button>
+          <Link href="/cart">
+            <ShoppingCartButton />
+          </Link>
           {!isLoggedIn ? (
             <Link href="/sign-in">
               <Button size="sm">Sign In</Button>

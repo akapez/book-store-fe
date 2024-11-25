@@ -89,7 +89,7 @@ const BookDetailsPage = async ({
               </CardContent>
             </Card>
           </div>
-          <AddToCartButton />
+          <AddToCartButton book={book} />
         </div>
       </div>
     </div>

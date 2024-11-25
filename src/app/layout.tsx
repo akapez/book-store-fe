@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { ThemeProvider, Toaster } from "@providers";
+import { StoreProvider, ThemeProvider, Toaster } from "@providers";
 
 import "./globals.css";
 
@@ -34,16 +34,18 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header
-            role={session?.user.role}
-            isLoggedIn={Boolean(session?.user)}
-            firstName={session?.user.firstName || ""}
-            lastName={session?.user.lastName || ""}
-            imageUrl={session?.user.image || ""}
-          />
-          {children}
-          <ToggleTheme />
-          <Toaster />
+          <StoreProvider>
+            <Header
+              role={session?.user.role}
+              isLoggedIn={Boolean(session?.user)}
+              firstName={session?.user.firstName || ""}
+              lastName={session?.user.lastName || ""}
+              imageUrl={session?.user.image || ""}
+            />
+            {children}
+            <ToggleTheme />
+            <Toaster />
+          </StoreProvider>
           <Footer />
         </ThemeProvider>
       </body>

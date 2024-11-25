@@ -1,4 +1,4 @@
-export const PUBLIC_ROUTES = ["/", "/:bookId"];
+export const PUBLIC_ROUTES = ["/", "/:bookId", "/cart"];
 export const PRIVATE_ROUTES = ["/manage", "/manage/books"];
 
 export const AUTH_ROUTES = ["/sign-in", "/sign-up"];
