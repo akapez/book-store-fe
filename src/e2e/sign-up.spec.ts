@@ -13,12 +13,12 @@ test.describe("Sign Up Page", () => {
     await expect(page.locator('input[placeholder="Last Name"]')).toBeVisible();
     await expect(page.locator('input[placeholder="Email"]')).toBeVisible();
     await expect(page.locator('input[placeholder="Password"]')).toBeVisible();
-    await expect(page.locator('button:has-text("Sign Up")')).toBeVisible();
+    await expect(page.locator('button:has-text("Register")')).toBeVisible();
   });
 
   test("should show validation errors on empty submit", async ({ page }) => {
     // Click the Sign Up button without filling the form
-    await page.click('button:has-text("Sign Up")');
+    await page.click('button:has-text("Register")');
     // Check if validation messages are displayed
     await expect(
       page.locator("text=First name must be at least three characters.")
@@ -39,6 +39,6 @@ test.describe("Sign Up Page", () => {
     await page.fill('input[placeholder="Email"]', "john.doe@example.com");
     await page.fill('input[placeholder="Password"]', "Password123");
 
-    await page.click('button:has-text("Sign Up")');
+    await page.click('button:has-text("Register")');
   });
 });

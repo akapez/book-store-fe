@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { render, screen } from "@testing-library/react";
 
-import { books } from "../../../books";
 import HomePage from "./page";
 
 interface CardProps {
@@ -14,6 +13,15 @@ interface CardProps {
   price: number;
   imageUrl: string;
 }
+
+const mockBook = {
+  bookId: "75709818-8bf0-4c76-a25b-9d2d536b9c64",
+  title: "The Great Gatsby",
+  author: "F. Scott Fitzgerald",
+  price: 10.65,
+  image:
+    "https://res.cloudinary.com/dsoeni91r/image/upload/v1732424256/ywq3sylyzepi2benymoj.jpg",
+};
 
 jest.mock(
   "@components/book-card",
@@ -30,24 +38,15 @@ jest.mock(
     }
 );
 
-describe("HomePage", () => {
-  it("renders without crashing", () => {
-    render(<HomePage />);
-  });
+describe("RSC HomePage", () => {
+  it("renders the BookCard component with correct data", async () => {
+    render(await HomePage());
 
-  it("displays the correct number of books", () => {
-    render(<HomePage />);
-    const bookCards = screen.getAllByTestId("book-card");
-    expect(bookCards.length).toBe(books.length);
-  });
-
-  it("displays the book details correctly", () => {
-    render(<HomePage />);
-    books.forEach((book) => {
-      expect(screen.getByText(book.title)).toBeInTheDocument();
-      expect(screen.getByText(book.author)).toBeInTheDocument();
-      expect(screen.getByText(book.price)).toBeInTheDocument();
-      expect(screen.getByAltText(book.title)).toBeInTheDocument();
-    });
+    expect(screen.getByText(mockBook.title)).toBeInTheDocument();
+    expect(screen.getByText(mockBook.author)).toBeInTheDocument();
+    expect(screen.getByText(mockBook.price.toString())).toBeInTheDocument();
+    const image = screen.getByAltText(mockBook.title);
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("src", mockBook.image);
   });
 });

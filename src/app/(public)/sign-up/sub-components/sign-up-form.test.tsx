@@ -1,28 +1,48 @@
 import "@testing-library/jest-dom";
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { useRouter } from "next/navigation";
+
+import { createUser } from "@actions/user";
+import { useToast } from "@hooks/use-toast";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import SignUpForm from "./sign-up-form";
 
-beforeAll(() => {
-  jest.spyOn(console, "log").mockImplementation(() => {});
-});
-
-afterAll(() => {
-  (console.log as jest.Mock).mockRestore();
-});
+jest.mock("@actions/user", () => ({
+  createUser: jest.fn(),
+}));
+jest.mock("@hooks/use-toast");
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
 
 describe("SignUpForm", () => {
-  it("renders the sign-up form", () => {
+  const toastMock = jest.fn();
+  const pushMock = jest.fn();
+
+  beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
+    (useToast as jest.Mock).mockReturnValue({ toast: toastMock });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("renders the sign-up form correctly", () => {
     render(<SignUpForm />);
+
     expect(
-      screen.getByRole("heading", { name: /sign up/i })
+      screen.getByRole("heading", { name: /register/i })
     ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("First Name")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Last Name")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /register/i })
+    ).toBeInTheDocument();
   });
 
   it("shows validation messages on invalid sign up form submission", async () => {
@@ -30,7 +50,7 @@ describe("SignUpForm", () => {
     render(<SignUpForm />);
 
     // Try to submit the form without filling in any fields
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await formEvent.click(screen.getByRole("button", { name: /register/i }));
 
     expect(
       await screen.findByText("First name must be at least three characters.")
@@ -48,7 +68,7 @@ describe("SignUpForm", () => {
     // Fill in invalid email and short password
     await formEvent.type(screen.getByPlaceholderText("Email"), "invalid-email");
     await formEvent.type(screen.getByPlaceholderText("Password"), "short");
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await formEvent.click(screen.getByRole("button", { name: /register/i }));
     expect(
       screen.getByText("Password must be at least 8 characters long.")
     ).toBeInTheDocument();
@@ -59,7 +79,7 @@ describe("SignUpForm", () => {
       screen.getByPlaceholderText("Password"),
       "lowercasepassword"
     );
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await formEvent.click(screen.getByRole("button", { name: /register/i }));
     expect(
       screen.getByText("Password must contain at least one uppercase letter.")
     ).toBeInTheDocument();
@@ -70,7 +90,7 @@ describe("SignUpForm", () => {
       screen.getByPlaceholderText("Password"),
       "UPPERCASEPASSWORD"
     );
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await formEvent.click(screen.getByRole("button", { name: /register/i }));
     expect(
       screen.getByText("Password must contain at least one lowercase letter.")
     ).toBeInTheDocument();
@@ -81,61 +101,37 @@ describe("SignUpForm", () => {
       screen.getByPlaceholderText("Password"),
       "LongPassword"
     );
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await formEvent.click(screen.getByRole("button", { name: /register/i }));
     expect(
       screen.getByText("Password must contain at least one numeric character.")
     ).toBeInTheDocument();
   });
 
-  it("submits the sign up form with correct data", async () => {
-    const formEvent = userEvent.setup();
+  it("submits the form with valid data", async () => {
+    (createUser as jest.Mock).mockResolvedValue({
+      success: true,
+      message: "You have successfully registered! You can now sign.",
+    });
+
     render(<SignUpForm />);
 
-    await formEvent.type(screen.getByPlaceholderText("First Name"), "John");
-    await formEvent.type(screen.getByPlaceholderText("Last Name"), "Doe");
-    await formEvent.type(
-      screen.getByPlaceholderText("Email"),
-      "john.doe@example.com"
+    await userEvent.type(screen.getByLabelText(/first name/i), "Sam");
+    await userEvent.type(screen.getByLabelText(/last name/i), "Smith");
+    await userEvent.type(screen.getByLabelText(/email/i), "sam@gmail.com");
+    await userEvent.type(screen.getByLabelText(/password/i), "Password123");
+
+    await userEvent.click(screen.getByRole("button", { name: /register/i }));
+
+    expect(createUser).toHaveBeenCalledWith(
+      "sam@gmail.com",
+      "Password123",
+      "Sam",
+      "Smith"
     );
 
-    await formEvent.type(
-      screen.getByPlaceholderText("Password"),
-      "Password123"
-    );
-    await formEvent.click(screen.getByRole("button", { name: /sign up/i }));
-
-    // Check that all validations have been passed
-    await waitFor(() =>
-      expect(
-        screen.queryByText("First name must be at least three characters.")
-      ).not.toBeInTheDocument()
-    );
-    expect(
-      screen.queryByText("Last name must be at least three characters.")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Invalid email address.")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Password must be at least 8 characters long.")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Password must contain at least one uppercase letter.")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Password must contain at least one lowercase letter.")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(
-        "Password must contain at least one numeric character."
-      )
-    ).not.toBeInTheDocument();
-
-    expect(console.log).toHaveBeenCalledWith({
-      first: "John",
-      last: "Doe",
-      email: "john.doe@example.com",
-      password: "Password123",
+    expect(pushMock).toHaveBeenCalledWith("/sign-in");
+    expect(toastMock).toHaveBeenCalledWith({
+      title: "You have successfully registered! You can now sign.",
     });
   });
 });

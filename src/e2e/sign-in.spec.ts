@@ -24,7 +24,7 @@ test.describe("Sign In Page", () => {
 
   test("should sign in successfully with valid data", async ({ page }) => {
     // Fill the form with valid data
-    await page.fill('input[placeholder="Email"]', "john.doe@example.com");
+    await page.fill('input[placeholder="Email"]', "sam@example.com");
     await page.fill('input[placeholder="Password"]', "Password123");
 
     // Click the Sign In button

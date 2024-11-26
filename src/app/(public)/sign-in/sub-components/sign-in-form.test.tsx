@@ -1,26 +1,45 @@
 import "@testing-library/jest-dom";
 
+import { useToast } from "@hooks/use-toast";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { signIn } from "next-auth/react";
 
 import SignInForm from "./sign-in-form";
 
-beforeAll(() => {
-  jest.spyOn(console, "log").mockImplementation(() => {});
-});
-
-afterAll(() => {
-  (console.log as jest.Mock).mockRestore();
-});
+jest.mock("next-auth/react");
+jest.mock("@hooks/use-toast");
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+    back: jest.fn(),
+    events: {
+      on: jest.fn(),
+      off: jest.fn(),
+      emit: jest.fn(),
+    },
+    isFallback: false,
+  }),
+}));
 
 describe("SignInForm", () => {
-  it("renders the form", () => {
+  const toastMock = jest.fn();
+  beforeEach(() => {
+    (useToast as jest.Mock).mockReturnValue({ toast: toastMock });
+  });
+
+  it("renders the sign-in form correctly", () => {
     render(<SignInForm />);
+
     expect(
       screen.getByRole("heading", { name: /sign in/i })
     ).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sign in/i })
+    ).toBeInTheDocument();
   });
 
   it("shows validation messages on invalid sign in form submission", async () => {
@@ -46,22 +65,23 @@ describe("SignInForm", () => {
     expect(screen.getByText("Invalid email address.")).toBeInTheDocument();
   });
 
-  it("submits the sign in form with correct data", async () => {
+  it("submits the form with valid data", async () => {
     const formEvent = userEvent.setup();
+    (signIn as jest.Mock).mockResolvedValue({ ok: true });
+
     render(<SignInForm />);
 
-    await formEvent.type(
-      screen.getByPlaceholderText("Email"),
-      "john.doe@example.com"
-    );
-    await formEvent.type(
-      screen.getByPlaceholderText("Password"),
-      "Password123"
-    );
+    await formEvent.type(screen.getByLabelText(/email/i), "sam@example.com");
+    await formEvent.type(screen.getByLabelText(/password/i), "Password123");
 
     await formEvent.click(screen.getByRole("button", { name: /sign in/i }));
 
-    // Check that all validations have been passed
+    expect(signIn).toHaveBeenCalledWith("credentials", {
+      email: "sam@example.com",
+      password: "Password123",
+      redirect: false,
+    });
+
     await waitFor(() =>
       expect(
         screen.queryByText("Invalid email address.")
@@ -69,9 +89,35 @@ describe("SignInForm", () => {
     );
     expect(screen.queryByText("Password is required.")).not.toBeInTheDocument();
 
-    expect(console.log).toHaveBeenCalledWith({
-      email: "john.doe@example.com",
-      password: "Password123",
+    expect(toastMock).toHaveBeenCalledWith({
+      title: "Successfully signed in.",
+    });
+  });
+
+  it("shows an error message on failed sign-in", async () => {
+    const formEvent = userEvent.setup();
+    (signIn as jest.Mock).mockResolvedValue({
+      ok: false,
+      error: "Invalid credentials",
+    });
+
+    render(<SignInForm />);
+
+    await formEvent.type(screen.getByLabelText(/email/i), "sam@example.com");
+    await userEvent.type(screen.getByLabelText(/password/i), "password");
+
+    await userEvent.click(screen.getByRole("button", { name: /sign in/i }));
+
+    expect(signIn).toHaveBeenCalledWith("credentials", {
+      email: "sam@example.com",
+      password: "password",
+      redirect: false,
+    });
+
+    expect(toastMock).toHaveBeenCalledWith({
+      variant: "destructive",
+      title: "Invalid credentials",
+      description: "There was a problem with your request.",
     });
   });
 });
