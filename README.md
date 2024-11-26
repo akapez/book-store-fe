@@ -1,5 +1,7 @@
 # Bookstore Application (Booktopia)
 
+![alt text](https://raw.githubusercontent.com/akapez/book-store-fe/refs/heads/main/screenshot.png)
+
 This project is built using Next.js, NextAuth for authentication, React Hook Form with Zod for form validation, Jest for unit testing, Playwright for end-to-end testing, Redux Toolkit for state management, and shadcn/ui for UI components.
 
 ## Table of Contents
