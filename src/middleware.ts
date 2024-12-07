@@ -13,6 +13,8 @@ import { getToken } from "next-auth/jwt";
 const secret = process.env.NEXTAUTH_SECRET;
 
 export async function middleware(req: NextRequest) {
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const isDev = process.env.NODE_ENV !== "production";
   const { nextUrl } = req;
   const token = await getToken({ req, secret });
   const isLoggedIn = !!token;
@@ -46,7 +48,40 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' ${
+      isDev
+        ? `'unsafe-eval' 'unsafe-inline' 'nonce-${nonce}'`
+        : `'nonce-${nonce}' 'strict-dynamic'`
+    };
+    style-src 'self' ${isDev ? "'unsafe-inline'" : `'nonce-${nonce}'`};
+    img-src 'self' blob: data: https://res.cloudinary.com;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    ${
+      isDev
+        ? ""
+        : `
+    block-all-mixed-content;
+    upgrade-insecure-requests;`
+    };
+  `;
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set(
+    "Content-Security-Policy",
+    cspHeader.replace(/\s{2,}/g, " ").trim()
+  );
+
+  return NextResponse.next({
+    headers: requestHeaders,
+  });
+
+  // return NextResponse.next();
 }
 
 export const config = {
