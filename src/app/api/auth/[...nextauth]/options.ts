@@ -54,7 +54,6 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        console.log(credentials?.email, credentials?.password);
         const payload = {
           email: credentials?.email,
           password: credentials?.password,
