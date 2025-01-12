@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { createUser } from "@actions/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@hooks/use-toast";
-import { SignUpSchema, signUpSchema } from "@validations/sign-up";
+import { useToast } from "@hooks/useToast";
+import { SignInSchema, signInSchema } from "@lib/zod-schemas/sign-in";
 import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@components/ui/button";
@@ -22,7 +22,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,14 +29,12 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const form = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      first: "",
-      last: "",
       email: "",
       password: "",
     },
@@ -49,80 +46,44 @@ const SignUpForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
-    const response = await createUser(
-      data.email,
-      data.password,
-      data.first,
-      data.last
-    );
-    if (response.success) {
-      router.push("/sign-in");
-      toast({
-        title: response.message,
-      });
-    } else {
+  const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
+    const response = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    if (!response?.ok) {
       toast({
         variant: "destructive",
-        title: response.message,
+        title: response?.error || "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
       });
+      return;
     }
+    toast({
+      title: "Successfully signed in.",
+    });
+    router.refresh();
   };
 
   return (
-    <Card className="mx-auto mb-40 mt-10 max-w-xs md:max-w-sm">
+    <Card className="mx-auto mt-20 max-w-xs md:max-w-sm">
       <CardHeader className="space-y-1">
         <CardTitle
           className="text-2xl font-bold"
           role="heading"
-          id="sign-up-card-header"
+          id="sign-in-card-header"
         >
-          Register
+          Sign In
         </CardTitle>
-        <CardDescription id="sign-up-card-description">
-          Join the Booktopia Community
+        <CardDescription id="sign-in-card-description">
+          Welcome back to Booktopia!
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-2">
-              <FormField
-                control={control}
-                name="first"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor="first-name">First Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        id="first-name"
-                        type="text"
-                        placeholder="First Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="last"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor="last-name">Last Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        id="last-name"
-                        type="text"
-                        placeholder="Last Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={control}
                 name="email"
@@ -155,11 +116,6 @@ const SignUpForm = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Password must be 8 characters long and include at least
-                      one uppercase letter, one lowercase letter, and one
-                      numeric character.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -167,7 +123,7 @@ const SignUpForm = () => {
             </div>
             <Button
               disabled={isSubmitting}
-              id="sign-up-btn"
+              id="sign-in-btn"
               className="w-full"
               type="submit"
             >
@@ -177,7 +133,7 @@ const SignUpForm = () => {
                   Please wait
                 </>
               ) : (
-                "Register"
+                "Sign In"
               )}
             </Button>
           </form>
@@ -187,10 +143,10 @@ const SignUpForm = () => {
         id="sign-up-card-footer"
         className="flex justify-center text-sm"
       >
-        Already have an account?
-        <Link href="/sign-in">
-          <Button id="sign-in-btn" variant="link">
-            Sign In
+        Don&apos;t have an account?
+        <Link href="/sign-up">
+          <Button id="sign-up-btn" variant="link">
+            Register
           </Button>
         </Link>
       </CardFooter>
@@ -198,4 +154,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import UserUpdateForm from "./sub-components/user-update-form";
+import UserUpdateForm from "./components/UserUpdateForm";
 
 export const metadata: Metadata = {
   title: "Profile",

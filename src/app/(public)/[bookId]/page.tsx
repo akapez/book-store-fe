@@ -6,10 +6,11 @@ import { notFound } from "next/navigation";
 import { getBook } from "@actions/book";
 import { ChevronLeft } from "lucide-react";
 
-import AddToCartButton from "@components/add-to-cart-button";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+
+import AddToCartButton from "./components/AddToCartButton";
 
 type MetadataProps = {
   params: Promise<{ bookId: string }>;

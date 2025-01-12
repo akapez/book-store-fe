@@ -3,16 +3,16 @@ import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
 
 import { createUser } from "@actions/user";
-import { useToast } from "@hooks/use-toast";
+import { useToast } from "@hooks/useToast";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import SignUpForm from "./sign-up-form";
+import SignUpForm from "./components/SignUpForm";
 
 jest.mock("@actions/user", () => ({
   createUser: jest.fn(),
 }));
-jest.mock("@hooks/use-toast");
+jest.mock("@hooks/useToast");
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));

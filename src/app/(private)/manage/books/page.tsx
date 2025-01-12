@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import BookCreateForm from "./sub-components/book-create-form";
+import BookCreateForm from "./components/BookCreateForm";
 
 export const metadata: Metadata = {
   title: "Books Manage",

@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppSelector } from "@hooks/use-redux";
+import { useAppSelector } from "@hooks/useRedux";
 import { ShoppingCart } from "lucide-react";
 
 import { Button } from "./ui/button";
 
-export default function ShoppingCartButton() {
+export default function CartButton() {
   const cartState = useAppSelector((state) => state.cart.books);
   return (
     <Button variant="outline" size="icon" className="relative">

@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Search } from "lucide-react";
 
+import CartButton from "./cart-button";
 import Menu from "./menu";
-import ShoppingCartButton from "./shoppint-cart-button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -47,7 +47,7 @@ export default function Header({
             </form>
           </div>
           <Link href="/cart">
-            <ShoppingCartButton />
+            <CartButton />
           </Link>
           {!isLoggedIn ? (
             <Link href="/sign-in">

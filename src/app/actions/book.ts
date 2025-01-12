@@ -1,7 +1,7 @@
 "use server";
 
 import { options } from "@auth/options";
-import type { Book } from "@utils/types";
+import type { Book } from "@definitions/book";
 import { getServerSession } from "next-auth";
 
 const BASE_URL = process.env.API_BASE_URL as string;

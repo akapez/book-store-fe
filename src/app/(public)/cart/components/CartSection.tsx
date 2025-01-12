@@ -2,18 +2,18 @@
 
 import Image from "next/image";
 
-import { useAppDispatch, useAppSelector } from "@hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@hooks/useRedux";
 import {
   decrementQuantity,
   incrementQuantity,
   removeFromCart,
-} from "@lib/features/cartSlice";
+} from "@redux/slices/cart.slice";
 import { Minus, Plus, ShoppingCart, TrashIcon } from "lucide-react";
 
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 
-import { EmptyCart } from "./empty-cart";
+import { EmptyCart } from "./EmptyCart";
 
 const CartSection = () => {
   const dispatch = useAppDispatch();

@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { createBook } from "@actions/book";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@hooks/use-toast";
-import { BookSchema, bookSchema } from "@validations/book";
+import { useToast } from "@hooks/useToast";
+import { BookSchema, bookSchema } from "@lib/zod-schemas/book";
 import { Loader2 } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 

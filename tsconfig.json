@@ -21,15 +21,16 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./src/*"],
-      "@providers": ["./providers"],
+      "@providers/*": ["./providers/*"],
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
       "@lib/*": ["./lib/*"],
+      "@redux/*": ["./redux/*"],
       "@utils/*": ["./utils/*"],
       "@assets/*": ["./assets/*"],
-      "@validations/*": ["./zod-schemas/*"],
       "@auth/*": ["./app/api/auth/[...nextauth]/*"],
-      "@actions/*": ["./app/actions/*"]
+      "@actions/*": ["./app/actions/*"],
+      "@definitions/*": ["./@types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
