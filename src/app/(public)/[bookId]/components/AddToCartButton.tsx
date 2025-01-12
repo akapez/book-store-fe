@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppDispatch } from "@hooks/use-redux";
-import { useToast } from "@hooks/use-toast";
-import { addToCart } from "@lib/features/cartSlice";
-import type { Book } from "@utils/types";
+import type { Book } from "@definitions/book";
+import { useAppDispatch } from "@hooks/useRedux";
+import { useToast } from "@hooks/useToast";
+import { addToCart } from "@redux/slices/cart.slice";
 
-import { Button } from "./ui/button";
+import { Button } from "@components/ui/button";
 
 interface AddToCartButtonProps {
   book: Book;

@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom";
 
-import { useToast } from "@hooks/use-toast";
+import { useToast } from "@hooks/useToast";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { signIn } from "next-auth/react";
 
-import SignInForm from "./sign-in-form";
+import SignInForm from "./components/SignInForm";
 
 jest.mock("next-auth/react");
-jest.mock("@hooks/use-toast");
+jest.mock("@hooks/useToast");
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),

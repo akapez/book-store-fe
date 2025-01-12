@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { updateUser } from "@actions/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@hooks/use-toast";
-import { UserSchema, userSchema } from "@validations/user";
+import { useToast } from "@hooks/useToast";
+import { UserSchema, userSchema } from "@lib/zod-schemas/user";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
