@@ -90,7 +90,7 @@ const BookDetailsPage = async ({
               </CardContent>
             </Card>
           </div>
-          {/* <AddToCartButton book={book} /> */}
+          <AddToCartButton book={book} />
         </div>
       </div>
     </div>
